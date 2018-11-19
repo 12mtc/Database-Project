@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GroceryStores>
 <Store>
-  <storeNum>1</storeNum>
+  <storeNum>123</storeNum>
   <storeName>NoFrills</storeName>
-  <location>Oshawa</location>
+  <location>Scarborough</location>
 </Store>
 <Store>
   <storeNum></storeNum>
