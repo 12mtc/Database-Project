@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pantries>
+<pantry>
+  <pantryNum></pantryNum>
+  <foodNum></foodNum>
+  <foodBrand></foodBrand>
+  <quantity></quantity>
+  <barcode></barcode>
+</pantry>
+</Pantries>
