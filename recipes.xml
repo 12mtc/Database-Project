@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Recipes>
-<food>
+<recipe>
 	<name>Macaroni and Cheese with bacon</name>
 	<ingredients>
 	Pasta noodles
@@ -22,8 +22,8 @@
 	Add bits of bacon.
 	Enjoy!
 	</instructions> 	
-</food>
-<food>
+</recipe>
+<recipe>
 	<name>Thai Chili Chicken</name>
 	<ingredients>
 	2 lb Chicken breast
@@ -44,7 +44,7 @@
 	If desired, add sweet peppers and red onions.
 	Enjoy!
 	</instructions>
-</food>
+</recipe>
 	
 	
 	
