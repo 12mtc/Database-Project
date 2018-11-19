@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Foodtype>
+<food>
+  <foodNum>15</foodNum>
+  <foodGroup>Grain</foodGroup>
+  <foodName>Bread</foodName>
+</food>
+<food>
+  <foodNum>16</foodNum>
+  <foodGroup>Meat</foodGroup>
+  <foodName>Chicken</foodName>
+</food>
+<food>
+  <foodNum>13</foodNum>
+  <foodGroup>Fruit</foodGroup>
+  <foodName>Apple</foodName>
+</food>
+<food>
+  <foodNum></foodNum>
+  <foodGroup></foodGroup>
+  <foodName></foodName>
+</food>
+</FoodType>

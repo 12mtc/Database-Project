@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GroceryStores>
+<Store>
+  <storeNum>1</storeNum>
+  <storeName>NoFrills</storeName>
+  <location>Oshawa</location>
+</Store>
+<Store>
+  <storeNum></storeNum>
+  <storeName></storeName>
+  <location></location>
+</Store>
+</GroceryStores>
