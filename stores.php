@@ -4,20 +4,15 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 
-$query = "SELECT * FROM user WHERE UserName = '" . $_SESSION["UserName"] . "'";
+$query = "SELECT * FROM user WHERE UserNo = {$_SESSION['UserNumber']}";
 $result = mysqli_query($conn, $query);
 $userData = mysqli_fetch_assoc($result);
 
-$_SESSION['UserNumber'] = $userData["UserNo"];
+//Adds session variable for user location on entrance
+$_SESSION['UserLocation'] = $userData["location"];
 
-//Sets the users pantry number if it has not yet been set
-if (is_null($userData["PantryNo"])) {
-	$query = "UPDATE user SET PantryNo = '" . $userData["UserNo"] . "' WHERE UserName = '" . $_SESSION["UserName"] . "'";
-	if (!mysqli_query($conn, $query)) {
-		echo "Failed to set PantryNo";
-	}
-}
-$_SESSION['PantryNo'] = $userData["PantryNo"];
+include('FindGroceryStores.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,20 +71,25 @@ body {
 </style>
 </head>
 <body>
-
 <div class="bg-image">
 	<div class="topnav">
-		<a class="active" href="welcome.php">Home</a>
+		<a href="welcome.php">Home</a>
 		<a href="pantry.php">Pantry</a>
 		<a href="recipes.php">Recipes</a>
-		<a href="stores.php">Stores</a>
+		<a class="active" href="stores.php">Stores</a>
 	</div>
 </div>
+    <form method="post" action="databaseInsert.php">
+		<div class="input-group">
+			<label>Location</label>
+			<input type="text" name="newUserLocation">
+		</div>
+		<div class="input-group">
+			<button type="submit" class="btn" name="set_location_btn">Set Location</button>
+		</div>
+	</form>
 
-<div style="padding-left:16px">
-  Welcome <?php echo $_SESSION["UserName"]; ?><br>
-  <p>Some content..</p>
-</div>
-
+	
+	
 </body>
 </html>

@@ -1,10 +1,7 @@
 <?php
 include('db_connection.php');
 
-session_start();
-
 if (isset($_POST['login_btn'])) {
-	echo "hi";
 	$username = $_POST['UserName'];
 	$password = $_POST['password_1'];
 	
@@ -13,7 +10,14 @@ if (isset($_POST['login_btn'])) {
 	
 	$user_check_query = "SELECT * FROM user WHERE UserName='$username' AND password='$password' LIMIT 1";
 	$user = mysqli_query($conn, $user_check_query);
-	Echo $user_check_query;
+
+	//Destroys session if one exists before login
+	if (isset($_SESSION)) {
+		session_destroy();
+		echo "DESTROY";
+	}
+	session_start();
+	
 	if ($user->num_rows > 0) {
 		$_SESSION['UserName'] = $username;
 		header('location: welcome.php');
