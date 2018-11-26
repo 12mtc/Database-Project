@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 26, 2018 at 12:33 AM
+-- Generation Time: Nov 26, 2018 at 05:59 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -46,10 +46,12 @@ CREATE TABLE IF NOT EXISTS `foodtype` (
 
 DROP TABLE IF EXISTS `grocerystores`;
 CREATE TABLE IF NOT EXISTS `grocerystores` (
-  `StoreNo` int(11) NOT NULL,
+  `StoreNo` int(11) NOT NULL AUTO_INCREMENT,
+  `UserNo` int(11) NOT NULL,
   `StoreName` varchar(45) DEFAULT NULL,
   `Location` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`StoreNo`)
+  PRIMARY KEY (`StoreNo`),
+  KEY `fk_UserNo` (`UserNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -134,6 +136,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `grocerystores`
+--
+ALTER TABLE `grocerystores`
+  ADD CONSTRAINT `fk_UserNo` FOREIGN KEY (`UserNo`) REFERENCES `user` (`UserNo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ingredients`
