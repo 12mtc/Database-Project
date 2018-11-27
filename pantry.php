@@ -27,6 +27,7 @@ else {
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <style>
 body {
@@ -86,7 +87,7 @@ body {
 		<a class="active" href="pantry.php">Pantry</a>
 		<a href="recipes.php">Recipes</a>
 		<a href="stores.php">Stores</a>
-		<a href="logout.php">Logout</a>
+		<a href="logout.php" onclick="return confirm('Are you sure you want to logout? (OK/CANCEL)');">Logout</a>
 	</div>
 </div>
 <b>Current Pantry Items: </b>
@@ -106,7 +107,8 @@ body {
 			<td><b>Food Group</b></td>
 			<td><b>Food Brand</b></td>
 			<td><b>Barcode</b></td>
-			<td><b>Quantity</b></td></tr>";
+			<td><b>Quantity</b></td>
+			</tr>";
 	
 	// Iterates through each row of the SQL result, building table row by row.
 	while($row = mysqli_fetch_assoc($result)) {
@@ -116,6 +118,7 @@ body {
 				<td>{$row['FoodBrand']}</td>
 				<td>{$row['Barcode']}</td>
 				<td>{$row['quantity']}</td>
+			
 			  </tr>";
 	}
 	echo "</table>";
