@@ -73,12 +73,12 @@ body {
 <br>
 
 <?php
-	$query = "SELECT r.Mealtype, r.MealTime
-				FROM recipebook r, ingredients i, user u
+	$query = "SELECT r.Mealtype, r.MealTime, u.UserName
+				FROM recipebook r, ingredients i
 				WHERE r.RecipeNum = i.RecipeNum AND i.IngredientNum IN
 				(SELECT p.FoodNum FROM pantry p
 				WHERE p.PantryNo = {$_SESSION["PantryNo"]})
-				LEFT JOIN u.UserName ON r.AuthorNo = u.UserNo";
+				LEFT JOIN user u ON r.AuthorNo = u.UserNo";
 				$result = mysqli_query($conn, $query);
 				echo "<table border='1'>";
 				echo "<tr><td><b>Recipe Name</b></td>
