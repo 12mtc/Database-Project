@@ -8,9 +8,11 @@ $query = "SELECT * FROM user WHERE UserName = '" . $_SESSION["UserName"] . "'";
 $result = mysqli_query($conn, $query);
 $userData = mysqli_fetch_assoc($result);
 
+// Sets required session variables
 $_SESSION['UserNumber'] = $userData["UserNo"];
+$_SESSION['UserLocation'] = $userData["location"];
 
-//Sets the users pantry number if it has not yet been set
+// Sets the users pantry number if it has not yet been set
 if (is_null($userData["PantryNo"])) {
 	$query = "UPDATE user SET PantryNo = '" . $userData["UserNo"] . "' WHERE UserName = '" . $_SESSION["UserName"] . "'";
 	if (!mysqli_query($conn, $query)) {
@@ -71,7 +73,7 @@ h3 {
 }
 
 body {
-  background-image: url("background.jpg");
+  background-image: url("images/background.jpg");
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -158,15 +160,15 @@ text-align: center;}
 
 <div class="slideshow-container">
   <div class="mySlides1">
-    <img src="pasta.jpg" style="width:100%">
+    <img src="images/pasta.jpg" style="width:100%">
   </div>
 
   <div class="mySlides1">
-    <img src="fish.jpg" style="width:100%">
+    <img src="images/fish.jpg" style="width:100%">
   </div>
 
   <div class="mySlides1">
-    <img src="taco.jpg" style="width:100%">
+    <img src="images/taco.jpg" style="width:100%">
   </div>
 
   <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>

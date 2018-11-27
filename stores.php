@@ -4,19 +4,11 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 
-//Gets all data for current user
-$query = "SELECT * FROM user WHERE UserNo = {$_SESSION['UserNumber']}";
-$result = mysqli_query($conn, $query);
-$userData = mysqli_fetch_assoc($result);
-
-//Sets current filter message
+// Sets current filter message
 $currentFilerMessage = "No current filter";
 
-//Adds session variable for user location on entrance
-$_SESSION['UserLocation'] = $userData["location"];
-
-//Based on which filter button is pressed (if any), changes the SQL query to build the table
-//Also sets the filter message depending on which filter user selected
+// Based on which filter button is pressed (if any), changes the SQL query to build the table
+// Also sets the filter message depending on which filter user selected
 if (isset($_POST['filter_name_btn']) and !empty($_POST['storeNameSearch'])) {
 	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
 					WHERE UserNo = {$_SESSION['UserNumber']}
@@ -98,6 +90,7 @@ body {
 		<a href="pantry.php">Pantry</a>
 		<a href="recipes.php">Recipes</a>
 		<a class="active" href="stores.php">Stores</a>
+		<a href="logout.php">Logout</a>
 	</div>
 </div>
 <br>
@@ -114,13 +107,15 @@ body {
 <br>
 <b>Nearest stores to your location</b><br>
 <?php
-	//Sets the current filter message
+	// Sets the current filter message
 	echo $currentFilerMessage;
+	
+	// Queries database then builds the table
 	$result = mysqli_query($conn, $searchQuery);
-	//Builds the table
 	echo "<table border='1'>";
 	echo "<tr><td>Store Number</td><td>Store Name</td><td>Store Location</td></tr>";
-	//Iterates through each row of the SQL result, building table row by row.
+	
+	// Iterates through each row of the SQL result, building table row by row.
 	while($row = mysqli_fetch_assoc($result)) {
 	echo "<tr>
 			<td>{$row['StoreNo']}</td>

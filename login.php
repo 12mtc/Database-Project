@@ -5,20 +5,23 @@ if (isset($_POST['login_btn'])) {
 	$username = $_POST['UserName'];
 	$password = $_POST['password_1'];
 	
-	if (empty($username)) { Echo "Username is required"; }
-	if (empty($password)) { Echo "Password is required"; }
+	if (empty($username)) { 
+		Echo "Username is required <br>"; 
+	}
+	if (empty($password)) { 
+		Echo "Password is required <br>"; 
+	}
 	
 	$user_check_query = "SELECT * FROM user WHERE UserName='$username' AND password='$password' LIMIT 1";
 	$user = mysqli_query($conn, $user_check_query);
 
-	//Destroys session if one exists before login
-	if (isset($_SESSION)) {
-		session_destroy();
-		echo "DESTROY";
-	}
-	session_start();
-	
 	if ($user->num_rows > 0) {
+		// Destroys session if one exists before login
+		if (isset($_SESSION)) {
+			session_destroy();
+		}
+		session_start();
+		
 		$_SESSION['UserName'] = $username;
 		header('location: welcome.php');
 	}
@@ -41,7 +44,7 @@ if (isset($_POST['login_btn'])) {
 
 	.bg-image {
 	  /* The image used */
-	  background-image: url("food.jpg");
+	  background-image: url("images/food.jpg");
 	  
 	  /* Add the blur effect */
 	  filter: blur(8px);
@@ -73,6 +76,7 @@ if (isset($_POST['login_btn'])) {
 	  text-align: center;
 	}
 	</style>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>	
 	<div class="bg-image"></div>
@@ -82,7 +86,6 @@ if (isset($_POST['login_btn'])) {
 	<div class "header">
 		<h2>Login</h2>
 	</div>
-	<link rel="stylesheet" type="text/css" href="style.css">
 	<form method="post" action="login.php">
 		<div class="input-group">
 			<label>Username</label>

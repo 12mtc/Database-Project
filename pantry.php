@@ -4,11 +4,11 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 
-//Sets the variable for filter message
+// Sets the variable for filter message
 $currentFilterMessage = "No current filter";
 
-//Based on which filter button is pressed (if any), changes the SQL query to build the table
-//Also sets the filter message depending on which filter user selected
+// Based on which filter button is pressed (if any), changes the SQL query to build the table
+// Also sets the filter message depending on which filter user selected
 if (isset($_POST['filter_quant_btn']) and !empty($_POST['maxQuant'])) {
 	$query = "SELECT f.FoodName, f.FoodGroup, f.FoodBrand, f.Barcode, p.quantity 
 				FROM pantry p, foodtype f 
@@ -87,6 +87,7 @@ body {
 		<a class="active" href="pantry.php">Pantry</a>
 		<a href="recipes.php">Recipes</a>
 		<a href="stores.php">Stores</a>
+		<a href="logout.php">Logout</a>
 	</div>
 </div>
 <br>
@@ -119,13 +120,15 @@ body {
 <br>
 <b>Current Pantry Items</b><br>
 <?php
-	//Sets the current filter message
+	// Sets the current filter message
 	echo $currentFilterMessage;
+	
+	// Queries database then builds the table
 	$result = mysqli_query($conn, $query);
-	//Builds the table
 	echo "<table border='1'>";
 	echo "<tr><td>Food Name</td><td>Food Group</td><td>Food Brand</td><td>Barcode</td><td>Quantity</td></tr>";
-	//Iterates through each row of the SQL result, building table row by row.
+	
+	// Iterates through each row of the SQL result, building table row by row.
 	while($row = mysqli_fetch_assoc($result)) {
 		echo "<tr>
 				<td>{$row['FoodName']}</td>
