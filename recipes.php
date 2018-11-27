@@ -67,18 +67,56 @@ body {
 		<a href="pantry.php">Pantry</a>
 		<a class="active" href="recipes.php">Recipes</a>
 		<a href="stores.php">Stores</a>
-		<a href="logout.php">Logout</a>
+		<a href="logout.php" onclick="return confirm('Are you sure you want to logout? (OK/CANCEL)');">Logout</a>
 	</div>
 </div>
 <br>
+<div id="help">
+	Recipes
+	<?php
+		$queryI1 = "SELECT i.Quantity, f.FoodName
+					FROM ingredients i, foodtype f
+					WHERE i.recipeNum = 1
+					AND i.IngredientNum = f.FoodNum";
+					$result = mysqli_query($conn, $queryI1);
+					echo "<table border='1'>";
+					echo "<tr><td><b>Quantity</b></td>
+							<td><b>Ingredient</b></td></tr>";
 
+					while($row = mysqli_fetch_assoc($result)) {
+						echo "<tr>
+								<td>{$row['Quantity']}</td>
+								<td>{$row['FoodName']}</td>
+								</tr>";
+					}
+					echo "</table>";
+
+    $queryI2 = "SELECT i.InstructionNum, i.Instruction
+					FROM instructions i
+					WHERE i.recipeNum = 1
+					ORDER BY i.InstructionNum";
+					$result = mysqli_query($conn, $queryI2);
+					echo "<table border='1'>";
+					echo "<tr><td><b>Quantity</b></td>
+							<td><b>INgredient</b></td></tr>";
+
+					while($row = mysqli_fetch_assoc($result)) {
+						echo "<tr>
+								<td>{$row['Quantity']}</td>
+								<td>{$row['FoodName']}</td>
+								</tr>";
+					}
+					echo "</table>";
+	?>
+</div>
+<input id="help_button" type="button" value="Show Popup"/>
 <?php
-	$query = "SELECT r.Mealtype, r.MealTime, u.UserName
-				FROM recipebook r, ingredients i
+	$query = "SELECT r.Mealtype, r.MealTime
+				FROM recipebook r, ingredients i, user u
 				WHERE r.RecipeNum = i.RecipeNum AND i.IngredientNum IN
 				(SELECT p.FoodNum FROM pantry p
 				WHERE p.PantryNo = {$_SESSION["PantryNo"]})
-				LEFT JOIN user u ON r.AuthorNo = u.UserNo";
+				LEFT JOIN u.UserName ON r.AuthorNo = u.UserNo";
 				$result = mysqli_query($conn, $query);
 				echo "<table border='1'>";
 				echo "<tr><td><b>Recipe Name</b></td>
