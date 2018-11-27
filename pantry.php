@@ -14,7 +14,7 @@ if (isset($_POST['filter_quant_btn']) and !empty($_POST['maxQuant'])) {
 				WHERE p.FoodNum = f.FoodNum AND p.PantryNo = {$_SESSION["PantryNo"]}
 				AND quantity = ANY (SELECT quantity FROM pantry WHERE quantity <= {$_POST['maxQuant']})
 				GROUP BY f.FoodGroup, f.FoodName, f.FoodBrand, f.Barcode";	
-	$currentFilterMessage = "Showing all items with at most {$_POST['maxQuant']} items";
+	$currentFilterMessage = "Showing all items with a quantity at most {$_POST['maxQuant']}";
 }
 else {
 	$query = "SELECT f.FoodName, f.FoodGroup, f.FoodBrand, f.Barcode, p.quantity 
@@ -89,35 +89,8 @@ body {
 		<a href="logout.php">Logout</a>
 	</div>
 </div>
-<br>
-<b>Add Item or Update Quantity</b>
-<form method="post" action="databaseInsert.php">
-	<div class="input-group">
-		<label>Food Name</label>
-		<input type="text" name="newFoodName">
-	</div>
-	<div class="input-group">
-		<label>Food Group</label>
-		<input type="text" name="newFoodGroup">
-	</div>
-	<div class="input-group">
-		<label>Food Brand</label>
-		<input type="text" name="newFoodBrand">
-	</div>
-	<div class="input-group">
-		<label>Barcode</label>
-		<input type="number" name="newBarcode">
-	</div>
-	<div class="input-group">
-		<label>Quantity</label>
-		<input type="number" name="newQuantity">
-	</div>
-	<div class="input-group">
-		<button type="submit" class="btn" name="add_item_btn">Add/Update</button>
-	</div>
-</form>
-<br>
-<b>Current Pantry Items</b><br>
+<b>Current Pantry Items: </b>
+<?php echo $currentFilterMessage; ?>
 <?php if($currentFilterMessage !== "No current filter") : ?>
 	<form method="post" action="pantry.php">
 		<div class="input-group">
@@ -126,13 +99,14 @@ body {
 	</form>
 <?php endif; ?>
 <?php
-	// Sets the current filter message
-	echo $currentFilterMessage;
-	
 	// Queries database then builds the table
 	$result = mysqli_query($conn, $query);
 	echo "<table border='1'>";
-	echo "<tr><td>Food Name</td><td>Food Group</td><td>Food Brand</td><td>Barcode</td><td>Quantity</td></tr>";
+	echo "<tr><td><b>Food Name</b></td>
+			<td><b>Food Group</b></td>
+			<td><b>Food Brand</b></td>
+			<td><b>Barcode</b></td>
+			<td><b>Quantity</b></td></tr>";
 	
 	// Iterates through each row of the SQL result, building table row by row.
 	while($row = mysqli_fetch_assoc($result)) {
@@ -146,7 +120,6 @@ body {
 	}
 	echo "</table>";
 ?>
-<br>
 <b>Filter foods by max quantity</b>
 <form method="post" action="pantry.php">
 	<div class="input-group">
@@ -157,6 +130,69 @@ body {
 		<button type="submit" class="btn" name="filter_quant_btn">Search</button>
 	</div>
 </form>
-
+<br>
+<br>
+<b>Add Item or Update Quantity</b>
+<table>
+<form method="post" action="databaseInsert.php">
+	<tr>
+	<div class="input-group">
+		<td>
+		<label>Food Name</label>
+		</td>
+		<td>
+		<input type="text" name="newFoodName">
+		</td>
+	</div>
+	</tr>
+	<tr>
+	<div class="input-group">
+		<td>
+		<label>Food Group</label>
+		</td>
+		<td>
+		<input type="text" name="newFoodGroup">
+		</td>
+	</div>
+	</tr>
+	<tr>
+	<div class="input-group">
+		<td>
+		<label>Food Brand</label>
+		</td>
+		<td>
+		<input type="text" name="newFoodBrand">
+		</td>
+	</div>
+	</tr>
+	<tr>
+	<div class="input-group">
+		<td>
+		<label>Barcode</label>
+		</td>
+		<td>
+		<input type="number" name="newBarcode">
+		</td>
+	</div>
+	</tr>
+	<tr>
+	<div class="input-group">
+		<td>
+		<label>Quantity</label>
+		</td>
+		<td>
+		<input type="number" name="newQuantity">
+		</td>
+	</div>
+	</tr>
+	<tr>
+	<div class="input-group">
+		<td>
+		<button type="submit" class="btn" name="add_item_btn">Add/Update</button>
+		</td>
+	</div>
+	</tr>
+</table>
+</form>
 </body>
 </html>

@@ -93,11 +93,10 @@ body {
 		<a href="logout.php">Logout</a>
 	</div>
 </div>
-<br>
-<b>Set Location</b> 
+
 <form method="post" action="databaseInsert.php">
 	<div class="input-group">
-		<label>Current Postal/ZIP Code:</label>
+		<b><label>Current Postal/ZIP Code:</label></b> 
 		<input type="text" name="newUserLocation">
 	</div>
 	<div class="input-group">
@@ -122,7 +121,7 @@ body {
 	// Queries database then builds the table
 	$result = mysqli_query($conn, $searchQuery);
 	echo "<table border='1'>";
-	echo "<tr><td>Store Number</td><td>Store Name</td><td>Store Location</td></tr>";
+	echo "<tr><td><b>Store Number</b></td><td><b>Store Name</b></td><td><b>Store Location</b></td></tr></b>";
 	
 	// Iterates through each row of the SQL result, building table row by row.
 	while($row = mysqli_fetch_assoc($result)) {
@@ -134,9 +133,9 @@ body {
 	}
 	echo "</table>";
 ?>
-If table is blank, enter a location (Must be valid and have stores within 10km)
-<br>
-<br>
+<font size="1">If table is blank, enter a location (Must be valid and have stores within 10km)</font>
+<table cellpadding="20">
+<tr><td>
 <form method="post" action="stores.php">
 	<div class="input-group">
 		<b><label>Filter by Store Name</label></b><br>
@@ -146,7 +145,8 @@ If table is blank, enter a location (Must be valid and have stores within 10km)
 		<button type="submit" class="btn" name="filter_name_btn">Search</button>
 	</div>
 </form>
-<br>
+</td>
+<td>
 <form method="post" action="stores.php">
 	<div class="input-group">
 		<b><label>Filter by Store Location</label></b><br>
@@ -156,7 +156,9 @@ If table is blank, enter a location (Must be valid and have stores within 10km)
 		<button type="submit" class="btn" name="filter_location_btn">Search</button>
 	</div>
 </form>
-
+</td>
+</tr>
+</table>
 	
 </body>
 </html>
