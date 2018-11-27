@@ -18,8 +18,11 @@ if (is_null($userData["PantryNo"])) {
 	if (!mysqli_query($conn, $query)) {
 		echo "Failed to set PantryNo";
 	}
+	$_SESSION['PantryNo'] = $userData["UserNo"];
 }
-$_SESSION['PantryNo'] = $userData["PantryNo"];
+else {
+	$_SESSION['PantryNo'] = $userData["PantryNo"];
+}
 ?>
 <!DOCTYPE html>
 <html>

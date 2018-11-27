@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 }
 
 // Sets current filter message
-$currentFilerMessage = "No current filter";
+$currentFilterMessage = "No current filter";
 
 // Based on which filter button is pressed (if any), changes the SQL query to build the table
 // Also sets the filter message depending on which filter user selected
@@ -13,18 +13,18 @@ if (isset($_POST['filter_name_btn']) and !empty($_POST['storeNameSearch'])) {
 	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
 					WHERE UserNo = {$_SESSION['UserNumber']}
 					AND StoreName LIKE '%{$_POST['storeNameSearch']}%'";
-	$currentFilerMessage = "Showing all store names containing \"{$_POST['storeNameSearch']}\"";
+	$currentFilterMessage = "Showing all store names containing \"{$_POST['storeNameSearch']}\"";
 }
 else if (isset($_POST['filter_location_btn']) and !empty($_POST['storeLocationSearch'])) {
 	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
 					WHERE UserNo = {$_SESSION['UserNumber']}
 					AND Location LIKE '%{$_POST['storeLocationSearch']}%'";
-	$currentFilerMessage = "Showing all store names containing \"{$_POST['storeLocationSearch']}\"";
+	$currentFilterMessage = "Showing all store names containing \"{$_POST['storeLocationSearch']}\"";
 }
 else {
 	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
 					WHERE UserNo = {$_SESSION['UserNumber']}";
-	$currentFilerMessage = "No current filter";
+	$currentFilterMessage = "No current filter";
 }
 ?>
 <!DOCTYPE html>
@@ -106,9 +106,18 @@ body {
 </form>
 <br>
 <b>Nearest stores to your location</b><br>
+
+<?php if($currentFilterMessage !== "No current filter") : ?>
+	<form method="post" action="stores.php">
+		<div class="input-group">
+			<button type="submit" class="btn" name="clear_search_btn">Clear Filter</button>
+		</div>
+	</form>
+<?php endif; ?>
+
 <?php
 	// Sets the current filter message
-	echo $currentFilerMessage;
+	echo $currentFilterMessage;
 	
 	// Queries database then builds the table
 	$result = mysqli_query($conn, $searchQuery);
@@ -125,6 +134,7 @@ body {
 	}
 	echo "</table>";
 ?>
+If table is blank, enter a location (Must be valid and have stores within 10km)
 <br>
 <br>
 <form method="post" action="stores.php">

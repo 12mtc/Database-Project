@@ -7,12 +7,12 @@ INSERT INTO `foodtype` (`FoodNum`, `FoodGroup`, `FoodName`, `FoodBrand`, `Barcod
 (17, 'Vegetable', 'Mushroom', 'Schnieder', '1567');
 
 INSERT INTO `user` (`UserNo`, `UserName`, `Password`, `Email`, `Phone`, `Location`, `PantryNo`) VALUES
-(2, 'Adam', 'adam123', 'adam@yahoo.ca', 333333555, 'toronto', 4),
-(3, 'Jonas', 'jonas123', 'jonas@yahoo.ca', 234323333, 'oshawa', 5),
-(4, 'Steve', 'steve123', 'steve@gmail.com', 234321234, 'ottawa', 6),
-(5, 'Alice', 'alice123', 'alice@gmail.com', 123233243, 'windsor', 7),
-(6, 'Jill', 'jil123', 'jill@yahoo.ca', 123459876, 'london', 8),
-(7, 'Raj', 'raj123', 'raj@gmail.com', 145123489, 'quebec', 9);
+(2, 'Adam', 'adam123', 'adam@yahoo.ca', 333333555, 'toronto', 2),
+(3, 'Jonas', 'jonas123', 'jonas@yahoo.ca', 234323333, 'oshawa', 3),
+(4, 'Steve', 'steve123', 'steve@gmail.com', 234321234, 'ottawa', 4),
+(5, 'Alice', 'alice123', 'alice@gmail.com', 123233243, 'windsor', 5),
+(6, 'Jill', 'jil123', 'jill@yahoo.ca', 123459876, 'london', 6),
+(7, 'Raj', 'raj123', 'raj@gmail.com', 145123489, 'quebec', 7);
 
 INSERT INTO `recipebook` (`RecipeNum`, `AuthorNo`, `MealTime`, `RecipeName`) VALUES
 (1, 2, 'dinner', 'macaroni and cheese with bacon'),
@@ -33,12 +33,12 @@ INSERT INTO `instructions` (`RecipeNum`, `InstructionNum`, `Instruction`) VALUES
 (4, 8, 'serve with maple syrup if desired.');
 
 INSERT INTO `pantry` (`PantryNo`, `FoodNum`, `Quantity`) VALUES
-(4, 12, 2),
-(5, 13, 1),
-(6, 14, 4),
-(7, 15, 2),
-(8, 16, 1),
-(9, 17, 2);
+(2, 12, 2),
+(3, 13, 1),
+(4, 14, 4),
+(5, 15, 2),
+(6, 16, 1),
+(7, 17, 2);
 
 INSERT INTO `ingredients` (`RecipeNum`, `IngredientNum`, `Quantity`) VALUES
 (1, '12', 1),

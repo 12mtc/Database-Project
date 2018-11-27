@@ -3,7 +3,6 @@ include('db_connection.php');
 if (!isset($_SESSION)) {
 	session_start();
 }
-
 // Sets the variable for filter message
 $currentFilterMessage = "No current filter";
 
@@ -14,7 +13,7 @@ if (isset($_POST['filter_quant_btn']) and !empty($_POST['maxQuant'])) {
 				FROM pantry p, foodtype f 
 				WHERE p.FoodNum = f.FoodNum AND p.PantryNo = {$_SESSION["PantryNo"]}
 				AND quantity = ANY (SELECT quantity FROM pantry WHERE quantity <= {$_POST['maxQuant']})
-				GROUP BY f.FoodName";	
+				GROUP BY f.FoodGroup, f.FoodName, f.FoodBrand, f.Barcode";	
 	$currentFilterMessage = "Showing all items with at most {$_POST['maxQuant']} items";
 }
 else {
@@ -91,7 +90,7 @@ body {
 	</div>
 </div>
 <br>
-<b>Add New Item</b>
+<b>Add Item or Update Quantity</b>
 <form method="post" action="databaseInsert.php">
 	<div class="input-group">
 		<label>Food Name</label>
@@ -114,11 +113,18 @@ body {
 		<input type="number" name="newQuantity">
 	</div>
 	<div class="input-group">
-		<button type="submit" class="btn" name="add_item_btn">Add Item</button>
+		<button type="submit" class="btn" name="add_item_btn">Add/Update</button>
 	</div>
 </form>
 <br>
 <b>Current Pantry Items</b><br>
+<?php if($currentFilterMessage !== "No current filter") : ?>
+	<form method="post" action="pantry.php">
+		<div class="input-group">
+			<button type="submit" class="btn" name="clear_search_btn">Clear Filter</button>
+		</div>
+	</form>
+<?php endif; ?>
 <?php
 	// Sets the current filter message
 	echo $currentFilterMessage;

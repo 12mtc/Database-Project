@@ -12,32 +12,47 @@ if (isset($_POST['add_item_btn'])) {
 	$barcode = $_POST['newBarcode'];
 	$quantity = $_POST['newQuantity'];
 	
-	// Gets the highest foodNum, adds 1 for next insert
-	$query = "SELECT MAX(FoodNum) AS max FROM foodtype";
+	$query = "SELECT * FROM foodtype 
+				WHERE FoodName = '{$foodName}' AND FoodGroup = '{$foodGroup}'
+				AND FoodBrand = '{$foodBrand}' AND Barcode = '{$barcode}'";
 	$result = mysqli_query($conn, $query);
-	$row = mysqli_fetch_assoc($result);
-	$foodNum = $row['max'] + 1;
-	
-	// Query to insert into foodtype
-	$query = "INSERT INTO foodtype VALUES (
-				'{$foodNum}',
-				'{$foodGroup}',
-				'{$foodName}',
-				'{$foodBrand}',
-				'{$barcode}')";
-	if (!mysqli_query($conn, $query)) {
-		echo "Failed to insert into foodtype";
+	if ($result->num_rows <= 0) {
+		// Gets the highest foodNum, adds 1 for next insert
+		$query = "SELECT MAX(FoodNum) AS max FROM foodtype";
+		$result = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($result);
+		$foodNum = $row['max'] + 1;
+		
+		// Query to insert into foodtype
+		$query = "INSERT INTO foodtype VALUES (
+					'{$foodNum}',
+					'{$foodGroup}',
+					'{$foodName}',
+					'{$foodBrand}',
+					'{$barcode}')";
+		if (!mysqli_query($conn, $query)) {
+			echo "Failed to insert into foodtype";
+		}
+		
+		// Query to insert into pantry
+		$query = "INSERT INTO pantry VALUES (
+					'{$_SESSION['PantryNo']}',
+					'{$foodNum}',
+					'{$quantity}')";
+		echo $query . "<br>";
+		if (!mysqli_query($conn, $query)) {
+			echo "Failed to insert into pantry <br>";
+			echo mysqli_error($conn);
+		}
 	}
-	
-	// Query to insert into pantry
-	$query = "INSERT INTO pantry VALUES (
-				'{$_SESSION['PantryNo']}',
-				'{$foodNum}',
-				'{$quantity}')";
-	if (!mysqli_query($conn, $query)) {
-		echo "Failed to insert into pantry";
+	else {
+		$foodData = mysqli_fetch_assoc($result);
+		$query = "UPDATE pantry SET Quantity = {$quantity}
+					WHERE FoodNum = '{$foodData['FoodNum']}' AND PantryNo = '{$_SESSION["PantryNo"]}'";
+		mysqli_query($conn, $query);
 	}
 	header('location: pantry.php');
+
 }
 
 // Set location function on stores.php
