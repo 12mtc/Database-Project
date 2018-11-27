@@ -90,7 +90,7 @@ body {
 		<a href="pantry.php">Pantry</a>
 		<a href="recipes.php">Recipes</a>
 		<a class="active" href="stores.php">Stores</a>
-		<a href="logout.php">Logout</a>
+		<a href="logout.php" onclick="return confirm('Are you sure you want to logout? (OK/CANCEL)');">Logout</a>
 	</div>
 </div>
 
