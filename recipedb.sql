@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 26, 2018 at 05:59 AM
+-- Generation Time: Nov 27, 2018 at 05:19 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -63,9 +63,10 @@ CREATE TABLE IF NOT EXISTS `grocerystores` (
 DROP TABLE IF EXISTS `ingredients`;
 CREATE TABLE IF NOT EXISTS `ingredients` (
   `RecipeNum` int(11) NOT NULL,
-  `IngredientNum` varchar(45) NOT NULL,
+  `IngredientNum` int(11) NOT NULL,
   `Quantity` int(11) DEFAULT NULL,
-  PRIMARY KEY (`RecipeNum`,`IngredientNum`)
+  PRIMARY KEY (`RecipeNum`,`IngredientNum`),
+  KEY `fk_ingredientNum` (`IngredientNum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -109,9 +110,10 @@ CREATE TABLE IF NOT EXISTS `recipebook` (
   `RecipeNum` int(11) NOT NULL,
   `AuthorNo` int(11) DEFAULT NULL,
   `MealTime` varchar(45) DEFAULT NULL,
-  `MealType` varchar(45) DEFAULT NULL,
+  `RecipeName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`RecipeNum`),
-  KEY `fk_recipeNo_idk` (`RecipeNum`)
+  KEY `fk_recipeNo_idk` (`RecipeNum`),
+  KEY `fk_AuthorNo` (`AuthorNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -147,6 +149,7 @@ ALTER TABLE `grocerystores`
 -- Constraints for table `ingredients`
 --
 ALTER TABLE `ingredients`
+  ADD CONSTRAINT `fk_ingredientNum` FOREIGN KEY (`IngredientNum`) REFERENCES `foodtype` (`FoodNum`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_recipeNo` FOREIGN KEY (`RecipeNum`) REFERENCES `recipebook` (`RecipeNum`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -161,6 +164,12 @@ ALTER TABLE `instructions`
 ALTER TABLE `pantry`
   ADD CONSTRAINT `fk_foodNo` FOREIGN KEY (`FoodNum`) REFERENCES `foodtype` (`FoodNum`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_pantryNo` FOREIGN KEY (`PantryNo`) REFERENCES `user` (`PantryNo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `recipebook`
+--
+ALTER TABLE `recipebook`
+  ADD CONSTRAINT `fk_AuthorNo` FOREIGN KEY (`AuthorNo`) REFERENCES `user` (`UserNo`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
