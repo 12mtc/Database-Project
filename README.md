@@ -9,4 +9,4 @@ Once this is setup, locate the file directory for your chosen web development en
 
 Through your prefered browser, go to 'http://localhost/recipeproj/' for the file directory, or 'http://localhost/recipeproj/login.php' to start. If you did not populate the tables with data, you will have to regiser an account in the database, by using 'http://localhost/recipeproj/register.php'. The register page will redirect you to the login page if it was successful. Login using any of the inserted credentials (example; username 'Adam', password 'adam123'), or with the previously registered login details. From the welcome page, most of the content can be explored.
 
-To use the POST GET functionality, send 'http://localhost/recipeproj/readRecipes.php' through Postman.
+To test the POST GET functionality, send 'http://localhost/recipeproj/readRecipes.php' through Postman.
