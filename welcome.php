@@ -76,7 +76,7 @@ h3 {
 }
 
 body {
-  background-image: url("images/background.jpg");
+  background-image: url("background.jpg");
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -153,7 +153,8 @@ text-align: center;}
 		<a href="pantry.php">Pantry</a>
 		<a href="recipes.php">Recipes</a>
 		<a href="stores.php">Stores</a>
-		<a href="logout.php">Logout</a>
+		<a href="logout.php" onclick="return confirm('Are you sure you want to logout? (OK/CANCEL)');">Logout</a>
+    <a href= "instructions.php">Instructions</a>
 	</div>
 </div>
 
@@ -163,15 +164,15 @@ text-align: center;}
 
 <div class="slideshow-container">
   <div class="mySlides1">
-    <img src="images/pasta.jpg" style="width:100%">
+    <img src="pasta.jpg" style="width:100%">
   </div>
 
   <div class="mySlides1">
-    <img src="images/fish.jpg" style="width:100%">
+    <img src="fish.jpg" style="width:100%">
   </div>
 
   <div class="mySlides1">
-    <img src="images/taco.jpg" style="width:100%">
+    <img src="taco.jpg" style="width:100%">
   </div>
 
   <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
