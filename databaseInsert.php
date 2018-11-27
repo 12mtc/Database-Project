@@ -40,7 +40,7 @@ if (isset($_POST['add_item_btn'])) {
 	header('location: pantry.php');
 }
 
-//Add location function on stores.php
+//Set location function on stores.php
 if (isset($_POST['set_location_btn'])) {
 	$newLocation = $_POST['newUserLocation'];
 	//Updates users location
@@ -54,6 +54,8 @@ if (isset($_POST['set_location_btn'])) {
 		//Deletes all nearby stores for that user, if user successfully changes locations
 		$query = "DELETE FROM grocerystores WHERE UserNo = {$_SESSION['UserNumber']}";
 		mysqli_query($conn, $query);
+		//Runs FindGroceryStores.php whenever users location changed.
+		include('FindGroceryStores.php');
 	}
 	header('location: stores.php');
 }

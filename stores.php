@@ -4,15 +4,36 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 
+//Gets all data for current user
 $query = "SELECT * FROM user WHERE UserNo = {$_SESSION['UserNumber']}";
 $result = mysqli_query($conn, $query);
 $userData = mysqli_fetch_assoc($result);
 
+//Sets current filter message
+$currentFilerMessage = "No current filter";
+
 //Adds session variable for user location on entrance
 $_SESSION['UserLocation'] = $userData["location"];
 
-include('FindGroceryStores.php');
-
+//Based on which filter button is pressed (if any), changes the SQL query to build the table
+//Also sets the filter message depending on which filter user selected
+if (isset($_POST['filter_name_btn']) and !empty($_POST['storeNameSearch'])) {
+	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
+					WHERE UserNo = {$_SESSION['UserNumber']}
+					AND StoreName LIKE '%{$_POST['storeNameSearch']}%'";
+	$currentFilerMessage = "Showing all store names containing \"{$_POST['storeNameSearch']}\"";
+}
+else if (isset($_POST['filter_location_btn']) and !empty($_POST['storeLocationSearch'])) {
+	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
+					WHERE UserNo = {$_SESSION['UserNumber']}
+					AND Location LIKE '%{$_POST['storeLocationSearch']}%'";
+	$currentFilerMessage = "Showing all store names containing \"{$_POST['storeLocationSearch']}\"";
+}
+else {
+	$searchQuery = "SELECT StoreNo, StoreName, Location FROM grocerystores 
+					WHERE UserNo = {$_SESSION['UserNumber']}";
+	$currentFilerMessage = "No current filter";
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,17 +100,58 @@ body {
 		<a class="active" href="stores.php">Stores</a>
 	</div>
 </div>
-    <form method="post" action="databaseInsert.php">
-		<div class="input-group">
-			<label>Location</label>
-			<input type="text" name="newUserLocation">
-		</div>
-		<div class="input-group">
-			<button type="submit" class="btn" name="set_location_btn">Set Location</button>
-		</div>
-	</form>
+<br>
+<b>Set Location</b> 
+<form method="post" action="databaseInsert.php">
+	<div class="input-group">
+		<label>Current Postal/ZIP Code:</label>
+		<input type="text" name="newUserLocation">
+	</div>
+	<div class="input-group">
+		<button type="submit" class="btn" name="set_location_btn">Set Location</button>
+	</div>
+</form>
+<br>
+<b>Nearest stores to your location</b><br>
+<?php
+	//Sets the current filter message
+	echo $currentFilerMessage;
+	$result = mysqli_query($conn, $searchQuery);
+	//Builds the table
+	echo "<table border='1'>";
+	echo "<tr><td>Store Number</td><td>Store Name</td><td>Store Location</td></tr>";
+	//Iterates through each row of the SQL result, building table row by row.
+	while($row = mysqli_fetch_assoc($result)) {
+	echo "<tr>
+			<td>{$row['StoreNo']}</td>
+			<td>{$row['StoreName']}</td>
+			<td>{$row['Location']}</td>
+		   </tr>";
+	}
+	echo "</table>";
+?>
+<br>
+<br>
+<form method="post" action="stores.php">
+	<div class="input-group">
+		<b><label>Filter by Store Name</label></b><br>
+		<input type="text" name="storeNameSearch">
+	</div>
+	<div class="input-group">
+		<button type="submit" class="btn" name="filter_name_btn">Search</button>
+	</div>
+</form>
+<br>
+<form method="post" action="stores.php">
+	<div class="input-group">
+		<b><label>Filter by Store Location</label></b><br>
+		<input type="text" name="storeLocationSearch">
+	</div>
+	<div class="input-group">
+		<button type="submit" class="btn" name="filter_location_btn">Search</button>
+	</div>
+</form>
 
-	
 	
 </body>
 </html>

@@ -4,10 +4,12 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 
+//Query to get users information
 $query = "SELECT * FROM user WHERE UserName = '" . $_SESSION["UserName"] . "'";
 $result = mysqli_query($conn, $query);
 $userData = mysqli_fetch_assoc($result);
 
+//Sets a session variable for current user's number from the previous SQL query
 $_SESSION['UserNumber'] = $userData["UserNo"];
 
 //Sets the users pantry number if it has not yet been set
@@ -17,6 +19,7 @@ if (is_null($userData["PantryNo"])) {
 		echo "Failed to set PantryNo";
 	}
 }
+//Sets a session variable for current user's pantry number from the previous SQL query
 $_SESSION['PantryNo'] = $userData["PantryNo"];
 ?>
 <!DOCTYPE html>

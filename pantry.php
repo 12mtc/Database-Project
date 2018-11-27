@@ -3,6 +3,26 @@ include('db_connection.php');
 if (!isset($_SESSION)) {
 	session_start();
 }
+
+//Sets the variable for filter message
+$currentFilterMessage = "No current filter";
+
+//Based on which filter button is pressed (if any), changes the SQL query to build the table
+//Also sets the filter message depending on which filter user selected
+if (isset($_POST['filter_quant_btn']) and !empty($_POST['maxQuant'])) {
+	$query = "SELECT f.FoodName, f.FoodGroup, f.FoodBrand, f.Barcode, p.quantity 
+				FROM pantry p, foodtype f 
+				WHERE p.FoodNum = f.FoodNum AND p.PantryNo = {$_SESSION["PantryNo"]}
+				AND quantity = ANY (SELECT quantity FROM pantry WHERE quantity <= {$_POST['maxQuant']})
+				GROUP BY f.FoodName";	
+	$currentFilterMessage = "Showing all items with at most {$_POST['maxQuant']} items";
+}
+else {
+	$query = "SELECT f.FoodName, f.FoodGroup, f.FoodBrand, f.Barcode, p.quantity 
+				FROM pantry p, foodtype f 
+				WHERE p.FoodNum = f.FoodNum AND p.PantryNo = {$_SESSION["PantryNo"]}";
+	$currentFilterMessage = "No current filter";
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -69,28 +89,8 @@ body {
 		<a href="stores.php">Stores</a>
 	</div>
 </div>
-
-<?php
-	//Replace this query with SELECT * FROM view, if view is defined for this query
-	$query = "SELECT f.FoodName, f.FoodGroup, f.FoodBrand, f.Barcode, p.quantity 
-				FROM pantry p, foodtype f 
-				WHERE p.FoodNum = f.FoodNum AND p.PantryNo = " . $_SESSION["PantryNo"];
-	$result = mysqli_query($conn, $query);
-
-	echo "<table border='1'>";
-	echo "<tr><td>Food Name</td><td>Food Group</td><td>Food Brand</td><td>Barcode</td><td>Quantity</td></tr>";
-	while($row = mysqli_fetch_assoc($result)) {
-		echo "<tr>
-				<td>{$row['FoodName']}</td>
-				<td>{$row['FoodGroup']}</td>
-				<td>{$row['FoodBrand']}</td>
-				<td>{$row['Barcode']}</td>
-				<td>{$row['quantity']}</td>
-			  </tr>";
-	}
-	echo "</table>";
-?>
-
+<br>
+<b>Add New Item</b>
 <form method="post" action="databaseInsert.php">
 	<div class="input-group">
 		<label>Food Name</label>
@@ -114,6 +114,38 @@ body {
 	</div>
 	<div class="input-group">
 		<button type="submit" class="btn" name="add_item_btn">Add Item</button>
+	</div>
+</form>
+<br>
+<b>Current Pantry Items</b><br>
+<?php
+	//Sets the current filter message
+	echo $currentFilterMessage;
+	$result = mysqli_query($conn, $query);
+	//Builds the table
+	echo "<table border='1'>";
+	echo "<tr><td>Food Name</td><td>Food Group</td><td>Food Brand</td><td>Barcode</td><td>Quantity</td></tr>";
+	//Iterates through each row of the SQL result, building table row by row.
+	while($row = mysqli_fetch_assoc($result)) {
+		echo "<tr>
+				<td>{$row['FoodName']}</td>
+				<td>{$row['FoodGroup']}</td>
+				<td>{$row['FoodBrand']}</td>
+				<td>{$row['Barcode']}</td>
+				<td>{$row['quantity']}</td>
+			  </tr>";
+	}
+	echo "</table>";
+?>
+<br>
+<b>Filter foods by max quantity</b>
+<form method="post" action="pantry.php">
+	<div class="input-group">
+		<label>Max Quantity</label>
+		<input type="number" name="maxQuant">
+	</div>
+	<div class="input-group">
+		<button type="submit" class="btn" name="filter_quant_btn">Search</button>
 	</div>
 </form>
 
