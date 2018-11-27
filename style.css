@@ -11,7 +11,7 @@ body, html {
 
 .bg-image {
   /* The image used */
-  background-image: url("food.jpg");
+  background-image: url("images/food.jpg");
   
   /* Add the blur effect */
   filter: blur(8px);
