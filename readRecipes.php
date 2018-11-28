@@ -48,7 +48,7 @@ while($row = mysqli_fetch_assoc($mainResult)) {
 	$instructionArray = array();
 	$instructionResult = mysqli_query($conn, $insQuery);
 	while ($rowThree = mysqli_fetch_assoc($instructionResult)) {
-		if ($rowThree['RecipeNum'] == $row['RecipeNum']) {
+		if ($rowThree['RecipeNum'] == $row['RecipeNum'] AND !is_null($rowThree['InstructionNum']) AND !is_null($rowThree['Instruction'])) {
 			$instructionArray[$rowThree['InstructionNum']] = $rowThree['Instruction'];
 		}
 	}
