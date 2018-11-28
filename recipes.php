@@ -4,17 +4,6 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 
-if (isset($_GET["default_btn"])) {
-	// Makes an array of 'make-able' recipe numbers
-	$query = "SELECT DISTINCT i.recipeNum FROM pantry p
-				INNER JOIN ingredients i ON i.IngredientNum = p.FoodNum
-				WHERE p.PantryNo = '{$_SESSION['UserNumber']}'";
-	$result = mysqli_query($conn, $query);
-	$valid_recipes = array();
-	while($row = mysqli_fetch_assoc($result)) {
-		array_push($valid_recipes, $row['recipeNum']);
-	}
-}
 if (isset($_GET["all_recipes_btn"])) {
 	// Makes an array of all recipe numbers
 	$query = "SELECT recipeNum FROM recipebook";
@@ -35,6 +24,17 @@ if (isset($_GET["vegitarian_btn"])) {
 	$valid_recipes = array();
 	while($row = mysqli_fetch_assoc($result)) {
 		array_push($valid_recipes, $row['RecipeNum']);
+	}
+}
+else {
+	// Makes an array of 'make-able' recipe numbers
+	$query = "SELECT DISTINCT i.recipeNum FROM pantry p
+				INNER JOIN ingredients i ON i.IngredientNum = p.FoodNum
+				WHERE p.PantryNo = '{$_SESSION['UserNumber']}'";
+	$result = mysqli_query($conn, $query);
+	$valid_recipes = array();
+	while($row = mysqli_fetch_assoc($result)) {
+		array_push($valid_recipes, $row['recipeNum']);
 	}
 }
 ?>
