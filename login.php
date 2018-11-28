@@ -37,6 +37,11 @@ if (isset($_POST['login_btn'])) {
 	  margin: 0;
 	  font-family: Arial, Helvetica, sans-serif;
 	}
+	
+	label {
+		align: center;
+		color: black;
+	}
 
 	* {
 	  box-sizing: border-box;
