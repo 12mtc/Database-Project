@@ -46,10 +46,21 @@ if (isset($_POST['add_item_btn'])) {
 		}
 	}
 	else {
-		$foodData = mysqli_fetch_assoc($result);
-		$query = "UPDATE pantry SET Quantity = {$quantity}
-					WHERE FoodNum = '{$foodData['FoodNum']}' AND PantryNo = '{$_SESSION["PantryNo"]}'";
-		mysqli_query($conn, $query);
+		$temp = mysqli_fetch_assoc($result);
+		$query = "SELECT * FROM pantry WHERE FoodNum = '{$temp['FoodNum']}' AND PantryNo = '{$_SESSION["PantryNo"]}'";
+		$result2 = mysqli_query($conn, $query);
+		if ($result2->num_rows > 0) {
+			$foodData = mysqli_fetch_assoc($result);
+			$query = "UPDATE pantry SET Quantity = {$quantity}
+						WHERE FoodNum = '{$temp['FoodNum']}' AND PantryNo = '{$_SESSION["PantryNo"]}'";
+			echo $query;
+			mysqli_query($conn, $query);
+		}
+		else {
+			$query = "INSERT INTO pantry VALUES ('{$_SESSION["PantryNo"]}', '{$temp['FoodNum']}', '{$quantity}')";
+			echo $query;
+			mysqli_query($conn, $query);
+		}
 	}
 	header('location: pantry.php');
 
