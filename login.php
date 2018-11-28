@@ -25,7 +25,7 @@ if (isset($_POST['login_btn'])) {
 		$_SESSION['UserName'] = $username;
 		header('location: welcome.php');
 	}
-}
+} 
 ?>
 <!DOCTYPE html>
 <html>
