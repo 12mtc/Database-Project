@@ -84,7 +84,7 @@ if (isset($_POST['login_btn'])) {
 <div class="bg-text">
 
 	<div class "header">
-		<h2>Login</h2>
+		<h2>Recipe Finder</h2>
 	</div>
 	<form method="post" action="login.php">
 		<div class="input-group">
