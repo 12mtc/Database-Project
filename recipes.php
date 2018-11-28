@@ -15,6 +15,8 @@ if (isset($_GET["all_recipes_btn"])) {
 }
 else if (isset($_GET["vegitarian_btn"])) {
 	// Makes an array of all vegitarian recipe numbers
+	// Makes a 'table' for the number of ingredients for all possible recipes, and a 'table' for the number of all ingredients for all recipes after excluding meat types
+	// Then only lists recipe numbers where the total ingredient count is the same in both 'tables'
 	$query = "SELECT r.RecipeNum 
 				FROM recipebook r, 
 					(SELECT RecipeNum, COUNT(RecipeNum) AS Total FROM ingredients GROUP BY RecipeNum) total, 
@@ -28,13 +30,17 @@ else if (isset($_GET["vegitarian_btn"])) {
 }
 else {
 	// Makes an array of 'make-able' recipe numbers
-	$query = "SELECT DISTINCT i.recipeNum FROM pantry p
-				INNER JOIN ingredients i ON i.IngredientNum = p.FoodNum
-				WHERE p.PantryNo = '{$_SESSION['UserNumber']}'";
+	// Makes a 'table' for the number of ingredients for all possible recipes, and a 'table' for the number of all ingredients in recipes that the user has
+	// Then only lists recipe numbers where the total ingredient count is the same in both 'tables'
+	$query = "SELECT r.RecipeNum 
+				FROM recipebook r, 
+					(SELECT RecipeNum, COUNT(RecipeNum) AS Total FROM ingredients GROUP BY RecipeNum) total, 
+					(SELECT i.recipeNum, COUNT(i.RecipeNum) AS Total FROM pantry p INNER JOIN ingredients i ON i.IngredientNum = p.FoodNum WHERE p.PantryNo = '{$_SESSION['UserNumber']}' GROUP BY i.RecipeNum) userTotal
+				WHERE total.RecipeNum = userTotal.RecipeNum AND total.Total = userTotal.Total AND r.RecipeNum = userTotal.RecipeNum";
 	$result = mysqli_query($conn, $query);
 	$valid_recipes = array();
 	while($row = mysqli_fetch_assoc($result)) {
-		array_push($valid_recipes, $row['recipeNum']);
+		array_push($valid_recipes, $row['RecipeNum']);
 	}
 }
 ?>
@@ -133,8 +139,11 @@ body {
 
 <div>
 <?php
+	// Builds table
 	echo "<table cellpadding='2' border='5'>";
+	// Runs through each recipe number in the previously generated $valid_recipes array
 	foreach ($valid_recipes as $count => $rNum) {
+		// Gets the recipe name associated with the recipe number
 		$query = "SELECT RecipeName 
 					FROM recipebook
 					WHERE RecipeNum = {$rNum};";
@@ -142,6 +151,7 @@ body {
 		$temp = mysqli_fetch_assoc($result);
 		if ($result->num_rows > 0) {
 			echo "<tr><td><b>{$temp['RecipeName']}</td></b>";
+			// Passes the recipe number through a GET button, to the instructions page
 			echo "<td><form action=\"instructions.php\" method=\"get\">
 					<button type=\"submit\" name=\"recipe\" value=\"{$rNum}\">View Instructions</button>
 					</form></td></tr>";
