@@ -13,7 +13,7 @@ if (isset($_GET["all_recipes_btn"])) {
 		array_push($valid_recipes, $row['recipeNum']);
 	}
 }
-if (isset($_GET["vegitarian_btn"])) {
+else if (isset($_GET["vegitarian_btn"])) {
 	// Makes an array of all vegitarian recipe numbers
 	$query = "SELECT r.RecipeNum 
 				FROM recipebook r, 
@@ -140,7 +140,6 @@ body {
 					WHERE RecipeNum = {$rNum};";
 		$result = mysqli_query($conn, $query);
 		$temp = mysqli_fetch_assoc($result);
-		
 		if ($result->num_rows > 0) {
 			echo "<tr><td><b>{$temp['RecipeName']}</td></b>";
 			echo "<td><form action=\"instructions.php\" method=\"get\">
