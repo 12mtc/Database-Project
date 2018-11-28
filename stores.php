@@ -35,10 +35,10 @@ else {
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-image: url("bgi.jpg");
-  background-attachment: fixed;
-  background-position: center;
-  background-size: auto;
+  background-image: url("images/prettybackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center; 
 }
 
 * {box-sizing: border-box;}
