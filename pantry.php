@@ -30,6 +30,11 @@ else {
 
 </head>
 <style>
+h2 { 
+  color: white;
+  text-align: right;
+}
+	
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -78,6 +83,7 @@ body {
 		<a href="recipes.php">Recipes</a>
 		<a href="stores.php">Stores</a>
 		<a href="logout.php" onclick="return confirm('Are you sure you want to logout? (OK/CANCEL)');">Logout</a>
+		<h2>Recipe Finder</h2>
 	</div>
 </div>
 <b>Current Pantry Items: </b>
