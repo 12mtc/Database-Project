@@ -33,23 +33,13 @@ else {
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  background-image: url("fruit-background.jpg");
+   background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
 }
-
+  
 * {box-sizing: border-box;}
-
-.bg-img {
-  /* The image used */
-  background-image: url("food.jpg");
-  min-height: 380px;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  /* Needed to position the navbar */
-  position: relative;
-}
 
 /* Position the navbar container inside the image */
 .container {
@@ -81,7 +71,7 @@ body {
 </style>
 <body>
 
-<div class="bg-image">
+<div class="bg-img">
 	<div class="topnav">
 		<a  href="welcome.php">Home</a>
 		<a class="active" href="pantry.php">Pantry</a>
@@ -98,6 +88,7 @@ body {
 			<button type="submit" class="btn" name="clear_search_btn">Clear Filter</button>
 		</div>
 	</form>
+	
 <?php endif; ?>
 <?php
 	// Queries database then builds the table
@@ -197,5 +188,6 @@ body {
 	</tr>
 </table>
 </form>
+
 </body>
 </html>
